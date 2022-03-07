@@ -8,6 +8,7 @@ import {
   Matches,
 } from 'class-validator';
 import { CaseType } from 'src/schemas/case.schema';
+import { AttachmentDto } from './attachment.dtos';
 import { TargetDto } from './targets.dtos';
 
 const votingRegex =
@@ -49,6 +50,9 @@ export class CaseDto {
     description: 'Das Abstimmungsergebnis, im Format ++/00/--',
   })
   voting?: string;
+
+  @ApiProperty({ required: true, default: [], type: [AttachmentDto] })
+  attachments: any[];
 }
 
 export class CreateCaseDto {

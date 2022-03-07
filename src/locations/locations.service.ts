@@ -15,8 +15,15 @@ export class LocationsService {
     @InjectModel('Case') private readonly caseModel: Model<CaseDocument>,
   ) {}
 
+  getModel() {
+    return this.locationModel;
+  }
+
   async getAllLocations() {
-    return await this.locationModel.find({}).populate('members');
+    return await this.locationModel
+      .find({})
+      .populate('members')
+      .populate('attachments');
   }
 
   async createNewLocation(newLocation: CreateLocationDto) {
@@ -25,7 +32,10 @@ export class LocationsService {
   }
   async getLocationById(id: string) {
     try {
-      return await this.locationModel.findById(id).populate('members');
+      return await this.locationModel
+        .findById(id)
+        .populate('members')
+        .populate('attachments');
     } catch (e) {
       return null;
     }
@@ -36,7 +46,8 @@ export class LocationsService {
         .findByIdAndUpdate(id, updates, {
           new: true,
         })
-        .populate('members');
+        .populate('members')
+        .populate('attachments');
     } catch (e) {
       return null;
     }
@@ -65,7 +76,8 @@ export class LocationsService {
           },
           { new: true },
         )
-        .populate('members');
+        .populate('members')
+        .populate('attachments');
     } catch (e) {
       return null;
     }
@@ -85,7 +97,8 @@ export class LocationsService {
           },
           { new: true },
         )
-        .populate('members');
+        .populate('members')
+        .populate('attachments');
     } catch (e) {
       return null;
     }

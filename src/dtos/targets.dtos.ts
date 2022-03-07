@@ -7,6 +7,7 @@ import {
   Validate,
 } from 'class-validator';
 import { PhoneNumber } from 'src/phone.validator';
+import { AttachmentDto } from './attachment.dtos';
 
 const matrixRegex = /^@[A-Z0-9._=-]+:[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const telegramRegex = /^@[A-Z0-9]{1}[A-Z0-9_]{3,}[A-Z0-9]{1}$/i;
@@ -33,6 +34,9 @@ export class TargetDto {
 
   @ApiProperty()
   notes: string[];
+
+  @ApiProperty({ type: [AttachmentDto] })
+  attachments: AttachmentDto[];
 }
 
 export class CreateTargetDto {

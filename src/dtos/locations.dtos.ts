@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { MessengerType } from 'src/schemas/location.schemas';
+import { AttachmentDto } from './attachment.dtos';
 import { UserDto } from './users.dtos';
 
 export class LocationDto {
@@ -18,6 +19,9 @@ export class LocationDto {
 
   @ApiProperty({ type: [UserDto] })
   members: UserDto[];
+
+  @ApiProperty({ type: [AttachmentDto] })
+  attachments: AttachmentDto[];
 }
 
 export class UpdateLocationDto {

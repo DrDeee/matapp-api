@@ -1,4 +1,4 @@
-import { Document, Schema } from 'mongoose';
+import { Document, Schema, Types } from 'mongoose';
 
 export type TargetDocument = Target & Document;
 
@@ -10,6 +10,7 @@ export interface Target {
   telegram?: string;
   discord?: string;
   notes: string[];
+  attachments: string[];
 }
 
 export const TargetSchema = new Schema<Target>({
@@ -39,6 +40,12 @@ export const TargetSchema = new Schema<Target>({
   },
   notes: {
     type: [String],
+    required: false,
+    default: [],
+  },
+  attachments: {
+    type: [Types.ObjectId],
+    ref: 'Attachment',
     required: false,
     default: [],
   },

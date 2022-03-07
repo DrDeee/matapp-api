@@ -20,6 +20,7 @@ export interface Case {
   endDate?: Date;
   notes?: string;
   voting?: string;
+  attachments: string[];
 }
 
 export const CaseSchema = new Schema<Case>({
@@ -67,6 +68,12 @@ export const CaseSchema = new Schema<Case>({
   voting: {
     type: String,
     required: false,
+  },
+  attachments: {
+    type: [Types.ObjectId],
+    ref: 'Attachment',
+    required: false,
+    default: [],
   },
 });
 

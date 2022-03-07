@@ -13,6 +13,10 @@ export class TargetsService {
     @InjectModel('Case') private readonly caseModel: Model<CaseDocument>,
   ) {}
 
+  getModel() {
+    return this.targetModel;
+  }
+
   async getAllTargets() {
     return await this.targetModel.find({});
   }
@@ -28,7 +32,7 @@ export class TargetsService {
 
   async getTargetById(id: string) {
     try {
-      return await this.targetModel.findById(id);
+      return await this.targetModel.findById(id).populate('attachments');
     } catch (e) {
       return null;
     }
@@ -40,9 +44,11 @@ export class TargetsService {
         country: 'DE',
       }).phoneNumber;
     try {
-      return await this.targetModel.findByIdAndUpdate(id, updates, {
-        new: true,
-      });
+      return await this.targetModel
+        .findByIdAndUpdate(id, updates, {
+          new: true,
+        })
+        .populate('attachments');
     } catch (e) {
       return null;
     }
@@ -65,7 +71,7 @@ export class TargetsService {
       const target = await this.targetModel.findById(id);
       if (!target) return null;
       target.notes.push(note);
-      return await target.save();
+      return await (await target.save()).populate('attachments');
     } catch (e) {
       return null;
     }
@@ -78,7 +84,7 @@ export class TargetsService {
       if (target.notes[noteIndex]) {
         target.notes.splice(noteIndex, 1);
       }
-      return await target.save();
+      return await (await target.save()).populate('attachments');
     } catch (e) {
       return null;
     }

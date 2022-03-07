@@ -10,14 +10,21 @@ import { LocationsService } from 'src/locations/locations.service';
 @Injectable()
 export class CasesService {
   constructor(
-    @InjectModel('Case') private readonly caseSchema: Model<CaseDocument>,
+    @InjectModel('Case') private readonly caseModel: Model<CaseDocument>,
     private readonly usersService: UsersService,
     private readonly targetsService: TargetsService,
     private readonly locationsService: LocationsService,
   ) {}
 
+  getModel() {
+    return this.caseModel;
+  }
+
   async getAllCases() {
-    return await this.caseSchema.find({}).populate('target');
+    return await this.caseModel
+      .find({})
+      .populate('target')
+      .populate('attachments');
   }
 
   async createCase(data: CreateCaseDto) {
@@ -29,12 +36,17 @@ export class CasesService {
       throw 'Annunciator not found.';
     if (!(await this.usersService.getUserById(data.executor)))
       throw 'Executor not found.';
-    return await (await new this.caseSchema(data).save()).populate('target');
+    return await (
+      await (await new this.caseModel(data).save()).populate('target')
+    ).populate('attachments');
   }
 
   async getCaseById(id: string, full = false) {
     try {
-      const request = await this.caseSchema.findById(id).populate('target');
+      const request = await this.caseModel
+        .findById(id)
+        .populate('target')
+        .populate('attachments');
       if (full)
         (
           await (
@@ -63,9 +75,10 @@ export class CasesService {
     if (data.executor && !(await this.usersService.getUserById(data.executor)))
       throw 'Executor not found.';
     try {
-      return await (
-        await this.caseSchema.findByIdAndUpdate(id, data, { new: true })
-      ).populate('target');
+      return await this.caseModel
+        .findByIdAndUpdate(id, data, { new: true })
+        .populate('target')
+        .populate('attachments');
     } catch (e) {
       return null;
     }
@@ -73,7 +86,7 @@ export class CasesService {
 
   async deleteCaseById(id: string) {
     try {
-      return await this.caseSchema.findByIdAndDelete(id);
+      return await this.caseModel.findByIdAndDelete(id);
     } catch (e) {
       return null;
     }

@@ -16,6 +16,7 @@ export interface Location {
   name: string;
   inviteUrl?: string;
   members: User[];
+  attachments: string[];
 }
 
 export const LocationSchema = new Schema<Location>({
@@ -35,6 +36,12 @@ export const LocationSchema = new Schema<Location>({
   members: {
     type: [Types.ObjectId],
     ref: 'User',
+    default: [],
+  },
+  attachments: {
+    type: [Types.ObjectId],
+    ref: 'Attachment',
+    required: false,
     default: [],
   },
 });
