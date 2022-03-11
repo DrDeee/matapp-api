@@ -1,0 +1,14 @@
+services:
+  mongo:
+    image: mongo:latest
+    volumes:
+      - db-data:/data/db
+  matapi:
+    image: ghcr.io/drdeee/matapp-api
+    ports:
+      - 4000:4000
+    environment:
+      PUBLIC_KEY: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAk3NBnR7yoLOdfeRKskKjJ+7+9Nmf1A3u3XX6XtuL7efILt2rq3+zM7rpax8RRhq3PCo06I/KcG/t+7HhCopWnCvG92LT6Wz2DozHyEgoKKU8gRJSTrZo/qp9NulfLjvNYikb1YxhQ76wHK84O9g9D0wvyT0zACwBMB4uZe8Uww8jhfe7A5OAwjEJeXbOLem8lpS8S1LJjvnGZ2DEBLXkVyM1+4fTCkwxaMqVNts7O2+2IY7mYf7xZVg9KFaU1lQjcAIiSulHha0mo8itHLRbdL2rJTSCLrk8jito5BIk1ZvsDDcj8cMT7m6RUXi+FddAkvU0KJ70iS6hUnPo/JDHeQIDAQAB
+      MONGODB_URL: mongodb://mongo/mat-app
+volumes:
+  db-data:
