@@ -6,6 +6,7 @@ import {
   IsOptional,
   IsString,
   Matches,
+  MaxLength,
 } from 'class-validator';
 import { CaseType } from 'src/schemas/case.schema';
 import { AttachmentDto } from './attachment.dtos';
@@ -23,6 +24,9 @@ export class CaseDto {
 
   @ApiProperty({ type: TargetDto })
   target: TargetDto;
+
+  @ApiProperty()
+  description: string;
 
   @ApiProperty()
   location: string;
@@ -65,6 +69,12 @@ export class CreateCaseDto {
   @IsString()
   @IsIn(Object.values(CaseType))
   type: CaseType;
+
+  @ApiProperty()
+  @IsString()
+  @MaxLength(100)
+  @IsNotEmpty()
+  description: string;
 
   @ApiProperty()
   @IsString()
@@ -121,6 +131,13 @@ export class UpdateCaseDto {
   @IsIn(Object.values(CaseType))
   @IsOptional()
   type: CaseType;
+
+  @ApiProperty()
+  @IsString()
+  @MaxLength(100)
+  @IsNotEmpty()
+  @IsOptional()
+  description: string;
 
   @ApiProperty()
   @IsString()

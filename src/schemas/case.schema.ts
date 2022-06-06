@@ -12,6 +12,7 @@ export enum CaseType {
 export interface Case {
   type: CaseType;
   target: Target;
+  description: string;
   location: Location;
   annunciator: User;
   executor: User;
@@ -32,6 +33,10 @@ export const CaseSchema = new Schema<Case>({
   target: {
     type: Types.ObjectId,
     ref: 'Target',
+    required: true,
+  },
+  description: {
+    type: String,
     required: true,
   },
   location: {
